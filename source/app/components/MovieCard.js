@@ -23,17 +23,17 @@ const MovieCard = ({ onPress, title, rating, image, date, description }) => {
           <Text style={styles.ratingTxt}>{rating}</Text>
         </View>
       }
+
+      <TouchableOpacity style={styles.favBtn}>
+        <Icon name="favorite" size={dpFont(18)} color="red" />
+        {/* <Icon name="favorite-border" size={dpFont(18)} color={colors.white} /> */}
+      </TouchableOpacity>
+
       <View style={styles.infoContainer}>
-        <View style={styles.headerRow}>
-          <View style={styles.col1}>
-            <Text style={styles.title} numberOfLines={1}>
-              {title ? title : ""}
-            </Text>
-          </View>
-          <View style={styles.col2}>
-            <Text style={styles.releasedDate}>{formatDate(date)}</Text>
-          </View>
-        </View>
+        <Text style={styles.title} numberOfLines={1}>
+          {title ? title : ""}
+        </Text>
+        <Text style={styles.releasedDate}>{formatDate(date)}</Text>
         <Text style={styles.desc} numberOfLines={2}>
           {description}
         </Text>
@@ -55,10 +55,11 @@ const styles = StyleSheet.create({
     marginBottom: dpHeight(2),
     elevation: 4,
     backgroundColor: colors.white,
+    flex: 1,
   },
   image: {
     width: "100%",
-    height: dpImageHeight(240),
+    height: dpImageHeight(220),
     borderRadius: dpHeight(1.5)
   },
   title: {
@@ -76,11 +77,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: "rgba(0,0,0,0.35)",
     position: 'absolute',
-    right: dpWidth(4),
+    left: dpWidth(4),
     top: dpWidth(4),
     borderRadius: dpHeight(2),
-    paddingHorizontal: dpWidth(0.8),
-    gap: dpWidth(0.2)
+    paddingHorizontal: dpWidth(1.),
+    paddingVertical: dpHeight(0.4),
+    gap: dpWidth(0.5)
   },
   ratingTxt: {
     fontSize: dpFont(14),
@@ -101,7 +103,18 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   releasedDate: {
-    fontSize: dpFont(15),
+    fontSize: dpFont(14),
     color: colors.grey
-  }
+  },
+  favBtn: {
+    position: 'absolute',
+    right: dpWidth(4),
+    top: dpWidth(4),
+    padding: dpHeight(0.5),
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
+    borderRadius: dpHeight(1.2),
+    zIndex: 9999
+  },
 });

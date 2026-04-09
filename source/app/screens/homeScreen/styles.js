@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { colors } from "../../../assets/styles/Colors";
-import { dpHeight, dpSpacing } from "../../../assets/styles/Sizes";
+import { dpHeight, dpSpacing, dpWidth } from "../../../assets/styles/Sizes";
 
 const styles = StyleSheet.create({
     container: {
@@ -15,7 +15,11 @@ const styles = StyleSheet.create({
     containerStyle: {
         flexGrow: 1,
         paddingTop: dpHeight(2),
-        paddingHorizontal: dpSpacing(4)
+        paddingHorizontal: dpSpacing(3)
+    },
+    row: {
+        justifyContent: "space-between",
+        gap: dpWidth(1.5)
     }
 });
 

@@ -11,14 +11,14 @@ const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
     const { movies, page, loading, error } = useSelector((state) => state.movies);
 
-    console.log(movies, "<<------movies-----------");
-    console.log(page, "----page");
 
+    //------------------ fetch movie list ------------------------>>
     useEffect(() => {
         dispatch(fetchMovies(1));
     }, []);
 
 
+    //------------------- pagination ----------------->>
     const loadMore = () => {
         if (!loading) {
             dispatch(fetchMovies(page));
@@ -42,6 +42,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.container}>
             <FlatList
                 contentContainerStyle={styles.containerStyle}
+                columnWrapperStyle={styles.row}
                 data={movies || []}
                 keyExtractor={(item, index) => index?.toString()}
                 renderItem={({ item }) => (
@@ -55,6 +56,7 @@ const HomeScreen = ({ navigation }) => {
                         onPress={() => navigation.navigate("movie_details", { movieId: item.id })}
                     />
                 )}
+                numColumns={2}
                 onEndReachedThreshold={0.5}
                 initialNumToRender={5}
                 maxToRenderPerBatch={10}
