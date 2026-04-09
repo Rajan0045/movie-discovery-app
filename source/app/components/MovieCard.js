@@ -5,8 +5,35 @@ import { Images } from "../../assets/styles/Images";
 import { dpFont, dpHeight, dpImageHeight, dpSpacing, dpWidth } from "../../assets/styles/Sizes";
 import { formatDate } from "../../helpers/General";
 import Constant from "../apis/constant";
+import { getFavorites, saveFavorites } from "../../storage/favourite";
+import { useEffect, useState } from "react";
 
-const MovieCard = ({ onPress, title, rating, image, date, description }) => {
+const MovieCard = ({ movie, onPress, title, rating, image, date, description, isFocus }) => {
+  const [isFav, setIsFav] = useState(false);
+
+  useEffect(() => {
+    checkFavorite();
+  }, [isFocus]);
+
+  //---------------get favourite and check fav exits in storage----------------->>
+  const checkFavorite = async () => {
+    const favs = await getFavorites();
+    const exists = favs.some((item) => item.id === movie?.id);
+    setIsFav(exists);
+  };
+
+  //------------------- add/remove to fav---------------------------------------->>
+  const handleFav = async () => {
+    const favs = await getFavorites();
+    let updatedFavs;
+    if (isFav) {
+      updatedFavs = favs.filter((item) => item.id !== movie.id);
+    } else {
+      updatedFavs = [...favs, movie];
+    }
+    await saveFavorites(updatedFavs);
+    setIsFav(!isFav);
+  };
 
 
   return (
@@ -24,9 +51,12 @@ const MovieCard = ({ onPress, title, rating, image, date, description }) => {
         </View>
       }
 
-      <TouchableOpacity style={styles.favBtn}>
-        <Icon name="favorite" size={dpFont(18)} color="red" />
-        {/* <Icon name="favorite-border" size={dpFont(18)} color={colors.white} /> */}
+      <TouchableOpacity style={styles.favBtn} onPress={() => handleFav(movie)}>
+        <Icon
+          name={isFav ? "favorite" : "favorite-border"}
+          size={dpFont(18)}
+          color={isFav ? colors.red : colors.lightgrey}
+        />
       </TouchableOpacity>
 
       <View style={styles.infoContainer}>
@@ -90,7 +120,7 @@ const styles = StyleSheet.create({
     fontWeight: "600"
   },
   infoContainer: {
-    padding: dpHeight(1)
+    padding: dpHeight(0.3)
   },
   headerRow: {
     flexDirection: 'row'

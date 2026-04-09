@@ -79,7 +79,7 @@ const globalStyles = StyleSheet.create({
     elevation: 6,
   },
   errorMsg: {
-    fontSize: dpFont(12),
+    fontSize: dpFont(13),
     color: colors.red,
   }
 });

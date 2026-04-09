@@ -13,24 +13,25 @@ const styles = StyleSheet.create({
         height: dpImageHeight(200),
     },
     image: {
-        height: dpImageHeight(420),
+        height: dpImageHeight(450),
         width: '100%',
     },
     ratRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: "rgba(0,0,0,0.35)",
+        backgroundColor: "rgba(0,0,0,0.5)",
         position: 'absolute',
         right: dpWidth(4),
         bottom: dpWidth(4),
         borderRadius: dpHeight(2),
-        paddingHorizontal: dpWidth(0.8),
+        paddingHorizontal: dpWidth(1.8),
+        paddingVertical: dpHeight(0.4),
         gap: dpWidth(0.2)
     },
     backbtn: {
         position: 'absolute',
         left: dpWidth(4),
-        top: dpWidth(4),
+        top: dpHeight(5),
         padding: dpHeight(1),
         alignItems: 'center',
         justifyContent: 'center',
@@ -76,8 +77,8 @@ const styles = StyleSheet.create({
         borderRadius: dpHeight(0.5),
         marginRight: dpHeight(1)
     },
-    uaTxt:{
- fontSize: dpFont(13),
+    uaTxt: {
+        fontSize: dpFont(13),
         color: colors.grey,
         fontWeight: "400"
     },
@@ -98,6 +99,17 @@ const styles = StyleSheet.create({
         color: colors.black,
         fontWeight: "400",
         paddingVertical: dpHeight(0.2)
-    }
+    },
+    favBtn: {
+        position: 'absolute',
+        right: dpWidth(4),
+        top: dpHeight(5),
+        padding: dpHeight(0.6),
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        borderRadius: dpHeight(1.5),
+        zIndex: 9999
+    },
 })
 export default styles;

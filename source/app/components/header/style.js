@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: colors.white,
-        paddingTop: Platform.OS === "ios" ? dpHeight(6.5) : dpHeight(1.8),
-        paddingBottom: dpHeight(1.8),
+        paddingTop: dpHeight(5),
+        paddingBottom: dpHeight(1),
         paddingHorizontal: dpWidth(4)
     },
     flexcontaineleft: {

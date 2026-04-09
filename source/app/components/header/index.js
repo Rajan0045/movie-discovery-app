@@ -2,16 +2,17 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Images } from "../../../assets/styles/Images";
 import styles from "./style";
 import Icon from "react-native-vector-icons/Ionicons";
+import globalStyles from "../../../assets/styles/GlobleStyles";
 
 const Header = ({ title, left, onlogo, onLeftPress, navigation }) => {
 
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, globalStyles.shadow]}>
       {/* Left Section */}
       <View style={styles.flexcontaineleft}>
         {left === 'back' ? (
-          <TouchableOpacity style={{ width: '100%'}} onPress={() => onLeftPress ? onLeftPress() : navigation.goBack()}>
+          <TouchableOpacity style={{ width: '100%' }} onPress={() => onLeftPress ? onLeftPress() : navigation.goBack()}>
             <Icon name="arrow-back" size={24} color="#000" />
           </TouchableOpacity>
         ) : (

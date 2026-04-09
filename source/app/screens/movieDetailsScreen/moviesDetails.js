@@ -1,4 +1,4 @@
-import { useRoute } from "@react-navigation/native";
+import { useIsFocused, useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Image, ScrollView, StatusBar, Text, TouchableOpacity, View } from "react-native";
 import { formatDate, formatReleaseDate, getCertification, getYearFD } from "../../../helpers/General";
@@ -10,6 +10,7 @@ import { colors } from "../../../assets/styles/Colors";
 import { dpFont, dpHeight } from "../../../assets/styles/Sizes";
 import Loader from '../../../helpers/loader'
 import globalStyles from "../../../assets/styles/GlobleStyles";
+import { getFavorites, saveFavorites } from "../../../storage/favourite";
 
 const MoviesDetailsScreen = (props) => {
     const route = useRoute();
@@ -19,12 +20,19 @@ const MoviesDetailsScreen = (props) => {
     const [movieDetails, setMovieDetails] = useState(null);
     const [loader, setLoader] = useState(false);
     const [cast, setCast] = useState([]);
+    const [isFav, setIsFav] = useState(false);
+
 
     //------------------ fetching movie details------------------------>>
     useEffect(() => {
         setLoader(true);
         fetchDetails();
     }, []);
+
+    useEffect(() => {
+        checkFavorite();
+    }, [movieDetails])
+
 
     const fetchDetails = async () => {
         try {
@@ -43,9 +51,29 @@ const MoviesDetailsScreen = (props) => {
     };
 
 
+    //---------------get favourite and check fav exits in storage----------------->>
+    const checkFavorite = async () => {
+        const favs = await getFavorites();
+        const exists = favs.some((item) => item.id === movieDetails?.id);
+        setIsFav(exists);
+    };
+
+    //------------------- add/remove to fav---------------------------------------->>
+    const handleFav = async (movieDetails) => {
+        const favs = await getFavorites();
+        let updatedFavs;
+        if (isFav) {
+            updatedFavs = favs.filter((item) => item.id !== movieDetails.id);
+        } else {
+            updatedFavs = [...favs, movieDetails];
+        }
+        await saveFavorites(updatedFavs);
+        setIsFav(!isFav);
+    };
+
     return (
         <>
-            {/* <StatusBar barStyle="light-content" translucent backgroundColor="transparent" /> */}
+            <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
             {
                 !loader && movieDetails &&
                 <ScrollView style={styles.main}>
@@ -57,6 +85,13 @@ const MoviesDetailsScreen = (props) => {
                         />
                         <TouchableOpacity style={styles.backbtn} onPress={() => props.navigation.goBack()}>
                             <Icon name="arrow-back" size={dpFont(28)} color={colors.white} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.favBtn} onPress={() => handleFav(movieDetails)}>
+                            <Icon
+                                name={isFav ? "favorite" : "favorite-border"}
+                                size={dpFont(22)}
+                                color={isFav ? colors.red : colors.lightgrey}
+                            />
                         </TouchableOpacity>
                         <View style={styles.ratRow}>
                             <Icon name="star" size={dpFont(15)} color={colors.starYellow} />
@@ -78,7 +113,7 @@ const MoviesDetailsScreen = (props) => {
                         <Text style={styles.desc}>
                             🎭 {movieDetails.genres?.map((g) => g.name).join(", ") || "N/A"}
                         </Text>
-                        <View style={[globalStyles.RowCeter,{marginTop:dpHeight(0.5)}]}>
+                        <View style={[globalStyles.RowCeter, { marginTop: dpHeight(0.5) }]}>
                             <View style={styles.uiBox}>
                                 <Text style={styles.uaTxt}>
                                     {getCertification(movieDetails?.adult)}

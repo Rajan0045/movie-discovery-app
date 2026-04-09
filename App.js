@@ -12,15 +12,13 @@ const App = () => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: colors.white }} edges={Platform.OS === "android" ? ["top", "bottom"] : ["top"]}>
-        <Provider store={store}>
-          <NavigationContainer>
-            <StatusBar backgroundColor={colors.white} barStyle={"dark-content"} />
-            {/* //-------------------Stack Screens--------------------// */}
-            <StackScreens />
-          </NavigationContainer>
-        </Provider>
-      </SafeAreaView>
+      <Provider store={store}>
+        <NavigationContainer>
+          <StatusBar backgroundColor={colors.white} barStyle={"dark-content"} />
+          {/* //-------------------Stack Screens--------------------// */}
+          <StackScreens />
+        </NavigationContainer>
+      </Provider>
     </GestureHandlerRootView>
   );
 };

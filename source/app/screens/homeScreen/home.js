@@ -1,15 +1,18 @@
-import { useEffect } from "react";
-import { ActivityIndicator, FlatList, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, FlatList, RefreshControl, Text, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../../assets/styles/Colors";
 import globalStyles from "../../../assets/styles/GlobleStyles";
 import { fetchMovies } from "../../../redux/slices/movieSlice";
 import MovieCard from "../../components/MovieCard";
 import styles from "./styles";
+import { useIsFocused } from "@react-navigation/native";
 
 const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
     const { movies, page, loading, error } = useSelector((state) => state.movies);
+    const [refreshing, setRefreshing] = useState(false);
+    const isFocus = useIsFocused();
 
 
     //------------------ fetch movie list ------------------------>>
@@ -17,6 +20,13 @@ const HomeScreen = ({ navigation }) => {
         dispatch(fetchMovies(1));
     }, []);
 
+
+    //--------------- on refresh------------------->>
+    const onRefresh = () => {
+        setRefreshing(true);
+        dispatch(fetchMovies(1));
+        setRefreshing(false);
+    };
 
     //------------------- pagination ----------------->>
     const loadMore = () => {
@@ -29,6 +39,7 @@ const HomeScreen = ({ navigation }) => {
         if (!loading) return null;
         return <ActivityIndicator size="large" color={colors.primary} />;
     };
+
 
     if (error) {
         return (
@@ -43,6 +54,14 @@ const HomeScreen = ({ navigation }) => {
             <FlatList
                 contentContainerStyle={styles.containerStyle}
                 columnWrapperStyle={styles.row}
+                numColumns={2}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                        colors={[colors.primary]}
+                    />
+                }
                 data={movies || []}
                 keyExtractor={(item, index) => index?.toString()}
                 renderItem={({ item }) => (
@@ -54,9 +73,9 @@ const HomeScreen = ({ navigation }) => {
                         image={item?.poster_path}
                         date={item?.release_date}
                         onPress={() => navigation.navigate("movie_details", { movieId: item.id })}
+                        isFocus={isFocus}
                     />
                 )}
-                numColumns={2}
                 onEndReachedThreshold={0.5}
                 initialNumToRender={5}
                 maxToRenderPerBatch={10}
