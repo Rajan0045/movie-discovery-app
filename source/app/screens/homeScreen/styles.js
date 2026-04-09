@@ -1,12 +1,22 @@
+import { StyleSheet } from "react-native";
 import { colors } from "../../../assets/styles/Colors";
-import { dpImageHeight, dpImageWidth } from "../../../assets/styles/Sizes";
-
-const { StyleSheet } = require("react-native");
+import { dpHeight, dpSpacing } from "../../../assets/styles/Sizes";
 
 const styles = StyleSheet.create({
-    main: {
+    container: {
         flex: 1,
-        backgroundColor: colors.white
+        backgroundColor: colors.background,
+    },
+    center: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    containerStyle: {
+        flexGrow: 1,
+        paddingTop: dpHeight(2),
+        paddingHorizontal: dpSpacing(4)
     }
-})
-export default styles;
+});
+
+export default styles

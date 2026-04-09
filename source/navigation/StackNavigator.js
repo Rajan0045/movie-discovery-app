@@ -2,6 +2,8 @@ import { CardStyleInterpolators, createStackNavigator, TransitionPresets } from 
 import { Platform } from "react-native";
 import HomeScreen from "../app/screens/homeScreen/home";
 import SplashScreen from "../app/screens/splashScreen/splash";
+import Header from "../app/components/header";
+import MoviesDetailsScreen from "../app/screens/movieDetailsScreen/moviesDetails";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +27,20 @@ const StackScreens = () => (
     <Stack.Screen
       name="home"
       component={HomeScreen}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="Popular Movies"
+            navigation={navigation}
+            onlogo={true}
+            onBack={null}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name="movie_details"
+      component={MoviesDetailsScreen}
       options={{
         headerShown: false,
       }}

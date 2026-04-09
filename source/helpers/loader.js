@@ -1,17 +1,12 @@
-import LottieView from 'lottie-react-native';
-import { StyleSheet, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { colors } from '../assets/styles/Colors';
 
 const Loader = ({ loader = false , svg}) => {
     if (!loader) return null;
 
     return (
         <View style={styles.overlay}>
-            <LottieView
-                style={{ width: 220, height: 220 }}
-                source={svg ? svg : require('../assets/SVG/loader.json')}
-                autoPlay
-                loop
-            />
+          <ActivityIndicator size="large" color={colors.primary} />;
         </View>
     );
 };

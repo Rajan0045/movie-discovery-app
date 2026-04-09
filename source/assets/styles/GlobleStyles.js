@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { colors } from './Colors';
-import { Font } from './FontsFamily';
 import {
   dpFont,
   dpHeight,
@@ -63,7 +62,6 @@ const globalStyles = StyleSheet.create({
   },
   HeadText: {
     fontSize: dpFont(28),
-    fontFamily: Font.medium,
     color: colors.black,
     marginBottom: dpHeight(1),
   },
@@ -82,7 +80,6 @@ const globalStyles = StyleSheet.create({
   },
   errorMsg: {
     fontSize: dpFont(12),
-    fontFamily: Font.regular,
     color: colors.red,
   }
 });

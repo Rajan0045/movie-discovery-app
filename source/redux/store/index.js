@@ -1,17 +1,8 @@
-// // store.js
-// import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { createStore } from 'redux';
-// import { persistReducer, persistStore } from 'redux-persist';
-// import rootReducer from '../reducer';
+import { configureStore } from "@reduxjs/toolkit";
+import movieReducer from "../slices/movieSlice";
 
-// const persistConfig = {
-//   key: 'root',
-//   storage: AsyncStorage,
-//   whitelist: []
-// };
-
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
-// const store = createStore(persistedReducer)
-// const persistor = persistStore(store);
-
-// export { persistor, store };
+export const store = configureStore({
+  reducer: {
+    movies: movieReducer,
+  },
+});
