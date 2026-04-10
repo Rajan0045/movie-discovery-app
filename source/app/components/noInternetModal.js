@@ -9,8 +9,9 @@ import {
     View,
 } from 'react-native';
 import { Images } from '../../assets/styles/Images';
-import { dpFont, dpHeight, dpImageHeight, dpImageWidth } from '../../assets/styles/Sizes';
+import { dpBorderWidth, dpFont, dpHeight, dpImageHeight, dpImageWidth } from '../../assets/styles/Sizes';
 import { useTheme } from '../hooks/useTheme';
+import { colors } from '../../assets/styles/Colors';
 
 const NoInternetModal = ({ visible, onClose }) => {
     const scaleAnim = useRef(new Animated.Value(0)).current;
@@ -60,11 +61,9 @@ const getStyles = (theme) =>
     StyleSheet.create({
         overlay: {
             flex: 1,
-            backgroundColor: theme.background === '#121212'
-                ? 'rgba(0,0,0,0.7)'
-                : 'rgba(255,255,255,0.85)',
+            backgroundColor: theme.background === '#121212'   ? 'rgba(0,0,0,0.7)'  : 'rgba(255,255,255,0.8)',
             justifyContent: 'center',
-            alignItems: 'center',
+            alignItems: 'center'
         },
         modalBox: {
             width: '85%',
@@ -77,6 +76,8 @@ const getStyles = (theme) =>
             shadowOpacity: 0.2,
             shadowRadius: 8,
             elevation: 10,
+            borderWidth: theme.background === "#121212" ? dpBorderWidth(0.2) : 0,
+            borderColor: theme.background === "#121212" ? colors.white : "transparent",
         },
         title: {
             fontSize: dpFont(18),

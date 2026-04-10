@@ -14,6 +14,7 @@ import { formatDate } from "../../helpers/General";
 import Constant from "../apis/constant";
 import { getFavorites, saveFavorites } from "../../storage/favourite";
 import { useTheme } from "../hooks/useTheme";
+import { colors } from "../../assets/styles/Colors";
 
 const MovieCard = ({
   movie,
@@ -103,23 +104,21 @@ const MovieCard = ({
 
 export default React.memo(MovieCard);
 
-// 🎨 Styles
 const getStyles = (theme) =>
   StyleSheet.create({
     card: {
       borderRadius: dpHeight(2),
       padding: dpSpacing(2),
-      marginBottom: dpHeight(2),
+      marginBottom: dpHeight(1),
       elevation: 4,
       flex: 1,
       backgroundColor: theme.background,
-      shadowColor: theme.shadow || "#000",
+      shadowColor: colors.black,
       shadowOffset: { width: 1, height: 1 },
       shadowOpacity: 0.25,
       shadowRadius: 3,
       borderWidth: theme.background === "#121212" ? dpBorderWidth(0.3) : 0,
-      borderColor: theme.background === "#121212" ? "#fff" : "transparent",
-
+      borderColor: theme.background === "#121212" ? colors.white : "transparent",
     },
     image: {
       width: "100%",

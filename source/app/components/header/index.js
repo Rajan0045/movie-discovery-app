@@ -1,11 +1,13 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { Images } from "../../../assets/styles/Images";
-import styles from "./style";
 import Icon from "react-native-vector-icons/Ionicons";
 import globalStyles from "../../../assets/styles/GlobleStyles";
+import { useTheme } from "../../hooks/useTheme";
+import getStyles from "./style";
 
 const Header = ({ title, left, onlogo, onLeftPress, navigation }) => {
-
+  const theme = useTheme();
+  const styles = getStyles(theme);
 
   return (
     <View style={[styles.container, globalStyles.shadow]}>
@@ -36,7 +38,5 @@ const Header = ({ title, left, onlogo, onLeftPress, navigation }) => {
     </View>
   );
 };
-
-
 
 export default Header;
