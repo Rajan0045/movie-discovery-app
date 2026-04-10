@@ -1,6 +1,7 @@
 import { CardStyleInterpolators, createStackNavigator, TransitionPresets } from "@react-navigation/stack";
 import { Platform } from "react-native";
 import HomeScreen from "../app/screens/homeScreen/home";
+import FavouritMovieScreen from "../app/screens/favouriteMoviesScreen/favouriteMovies"
 import SplashScreen from "../app/screens/splashScreen/splash";
 import Header from "../app/components/header";
 import MoviesDetailsScreen from "../app/screens/movieDetailsScreen/moviesDetails";
@@ -33,6 +34,21 @@ const StackScreens = () => (
             title="Popular Movies"
             navigation={navigation}
             onlogo={true}
+            right={true}
+            onBack={null}
+          />
+        ),
+      })}
+    />
+    <Stack.Screen
+      name="favourit_movies"
+      component={FavouritMovieScreen}
+      options={({ navigation }) => ({
+        header: () => (
+          <Header
+            title="My Favourites"
+            navigation={navigation}
+            left={"back"}
             onBack={null}
           />
         ),

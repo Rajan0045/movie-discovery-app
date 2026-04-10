@@ -25,8 +25,10 @@ const MovieCard = ({
   date,
   description,
   isFocus,
+  onRemove,
+  cardStyle
 }) => {
-  const theme = useTheme(); // ✅ now consistent
+  const theme = useTheme();
   const styles = getStyles(theme);
 
   const [isFav, setIsFav] = useState(false);
@@ -47,6 +49,7 @@ const MovieCard = ({
     let updatedFavs;
     if (isFav) {
       updatedFavs = favs.filter((item) => item.id !== movie.id);
+      onRemove && onRemove(movie.id);
     } else {
       updatedFavs = [...favs, movie];
     }
@@ -56,7 +59,7 @@ const MovieCard = ({
   }, [isFav, movie]);
 
   return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
+    <TouchableOpacity style={cardStyle ? cardStyle : styles.card} onPress={onPress}>
       <Image
         source={
           image
@@ -107,11 +110,11 @@ export default React.memo(MovieCard);
 const getStyles = (theme) =>
   StyleSheet.create({
     card: {
+      flex: 1,
       borderRadius: dpHeight(2),
       padding: dpSpacing(2),
       marginBottom: dpHeight(1),
       elevation: 4,
-      flex: 1,
       backgroundColor: theme.background,
       shadowColor: colors.black,
       shadowOffset: { width: 1, height: 1 },

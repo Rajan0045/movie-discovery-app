@@ -4,10 +4,16 @@ import Icon from "react-native-vector-icons/Ionicons";
 import globalStyles from "../../../assets/styles/GlobleStyles";
 import { useTheme } from "../../hooks/useTheme";
 import getStyles from "./style";
+import { colors } from "../../../assets/styles/Colors";
+import MaterialIcons from "react-native-vector-icons/MaterialIcons";
+import { dpFont } from "../../../assets/styles/Sizes";
+import { useNavigation } from "@react-navigation/native";
 
-const Header = ({ title, left, onlogo, onLeftPress, navigation }) => {
+
+const Header = ({ title, left, onlogo, onLeftPress, right }) => {
   const theme = useTheme();
   const styles = getStyles(theme);
+  const navigation = useNavigation();
 
   return (
     <View style={[styles.container, globalStyles.shadow]}>
@@ -15,7 +21,7 @@ const Header = ({ title, left, onlogo, onLeftPress, navigation }) => {
       <View style={styles.flexcontaineleft}>
         {left === 'back' ? (
           <TouchableOpacity style={{ width: '100%' }} onPress={() => onLeftPress ? onLeftPress() : navigation.goBack()}>
-            <Icon name="arrow-back" size={24} color="#000" />
+            <Icon name="arrow-back" size={24} color={theme.black} />
           </TouchableOpacity>
         ) : (
           <View />
@@ -34,6 +40,16 @@ const Header = ({ title, left, onlogo, onLeftPress, navigation }) => {
       </View>
       {/* Right Section */}
       <View style={styles.flexcontaineRight}>
+        {
+          right &&
+          <TouchableOpacity style={{ width: '50%', alignItems: 'flex-end' }} onPress={() => navigation.navigate("favourit_movies")} >
+            <MaterialIcons
+              name={"favorite"}
+              size={dpFont(18)}
+              color={colors.primary}
+            />
+          </TouchableOpacity>
+        }
       </View>
     </View>
   );
