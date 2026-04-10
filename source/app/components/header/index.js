@@ -27,7 +27,7 @@ const Header = ({ title, left, onlogo, onLeftPress, right }) => {
           <View />
         )}
         {onlogo ? (
-          <TouchableOpacity onPress={onlogo} >
+          <TouchableOpacity>
             <Image source={Images.logo} style={styles.logoImage} resizeMode="contain" />
           </TouchableOpacity>
         ) : (
