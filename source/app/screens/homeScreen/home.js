@@ -81,9 +81,15 @@ const HomeScreen = ({ navigation }) => {
 
     const dataToRender = isSearching ? searchResults : movies;
 
+    //-------------- handle status bar color ----------------------------->>
+    const isDark = theme.background === "#121212" || theme.mode === "dark";
+
     return (
         <>
-            <StatusBar backgroundColor={colors.white} barStyle={"dark-content"} />
+            <StatusBar
+                backgroundColor={theme.background}
+                barStyle={isDark ? "light-content" : "dark-content"}
+            />
             <View style={styles.container}>
                 {/* ---------------- search bar ---------------- */}
                 <View style={styles.searchView}>

@@ -1,14 +1,12 @@
-import { colors } from "../../../assets/styles/Colors";
+import { StyleSheet } from "react-native";
 import { dpImageHeight, dpImageWidth } from "../../../assets/styles/Sizes";
 
-const { StyleSheet } = require("react-native");
-
-const styles = StyleSheet.create({
+const getStyles = (theme) => StyleSheet.create({
     main: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.white
+        backgroundColor: theme.background,
     },
     viewImage: {
         width: dpImageWidth(200),
@@ -18,5 +16,6 @@ const styles = StyleSheet.create({
         height: "100%",
         width: '100%',
     }
-})
-export default styles;
+});
+
+export default getStyles;

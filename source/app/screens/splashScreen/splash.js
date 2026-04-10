@@ -1,10 +1,14 @@
 import { useEffect } from 'react';
 import { Animated, Easing, Image, StatusBar, View } from 'react-native';
-import styles from './styles';
 import { Images } from '../../../assets/styles/Images';
-import { colors } from '../../../assets/styles/Colors';
+import { useTheme } from '../../hooks/useTheme';
+import getStyles from './styles';
 
 const SplashScreen = ({ navigation }) => {
+  //---------------------- theme handle ----------------------------->>
+  const theme = useTheme();
+  const styles = getStyles(theme);
+
   const animatedValue = new Animated.Value(0);
 
   //---------------------------- fade animation ----------------------------->>
@@ -21,7 +25,6 @@ const SplashScreen = ({ navigation }) => {
     opacity: animatedValue,
   };
 
-
   //------------------- navigate to home after 2 seconds------------------------>>
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -31,8 +34,15 @@ const SplashScreen = ({ navigation }) => {
     return () => clearTimeout(timer);
   }, []);
 
+  //-------------- handle status bar color ----------------------------->>
+  const isDark = theme.background === "#121212" || theme.mode === "dark";
 
   return (
+    <>
+      <StatusBar
+        backgroundColor={theme.background}
+        barStyle={isDark ? "light-content" : "dark-content"}
+      />
       <View style={styles.main}>
         <Animated.View style={[styles.viewImage, imageStyle]}>
           <Image
@@ -42,6 +52,7 @@ const SplashScreen = ({ navigation }) => {
           />
         </Animated.View>
       </View>
+    </>
   );
 };
 
