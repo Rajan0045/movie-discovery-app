@@ -15,15 +15,12 @@ const favoriteSlice = createSlice({
 
     toggleFavorite: (state, action) => {
       const movie = action.payload;
-
       const exists = state.movies.find((m) => m.id === movie.id);
-
       if (exists) {
         state.movies = state.movies.filter((m) => m.id !== movie.id);
       } else {
         state.movies.push(movie);
       }
-
       // persist
       saveFavorites(state.movies);
     },

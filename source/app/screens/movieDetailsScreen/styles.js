@@ -13,15 +13,15 @@ const styles = StyleSheet.create({
         height: dpImageHeight(200),
     },
     image: {
-        height: dpImageHeight(450),
-        width: '100%',
+        height: dpImageHeight(520),
+        width: '100%'
     },
     ratRow: {
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: "rgba(0,0,0,0.5)",
         position: 'absolute',
-        right: dpWidth(4),
+        left: dpWidth(4),
         bottom: dpWidth(4),
         borderRadius: dpHeight(2),
         paddingHorizontal: dpWidth(1.8),
@@ -103,11 +103,11 @@ const styles = StyleSheet.create({
     favBtn: {
         position: 'absolute',
         right: dpWidth(4),
-        top: dpHeight(5),
+        bottom: dpHeight(2),
         padding: dpHeight(0.6),
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        backgroundColor: "rgba(255, 255, 255, 0.6)",
         borderRadius: dpHeight(1.5),
         zIndex: 9999
     },

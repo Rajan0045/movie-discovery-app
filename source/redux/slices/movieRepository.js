@@ -8,7 +8,7 @@ export const MovieRepository = {
     });
   },
 
-  searchMovies: (query, page = 1) => {
+ searchMovies: (query, page = 1) => {
     return apiClient.get("/search/movie", {
       params: { query, page },
     });

@@ -11,6 +11,8 @@ import { dpFont, dpHeight } from "../../../assets/styles/Sizes";
 import Loader from '../../../helpers/loader'
 import globalStyles from "../../../assets/styles/GlobleStyles";
 import { getFavorites, saveFavorites } from "../../../storage/favourite";
+import { Images } from "../../../assets/styles/Images";
+import EmptyState from "../../components/emptyState";
 
 const MoviesDetailsScreen = (props) => {
     const route = useRoute();
@@ -109,7 +111,6 @@ const MoviesDetailsScreen = (props) => {
                                 </Text>
                             }
                         </Text>
-
                         <Text style={styles.desc}>
                             🎭 {movieDetails.genres?.map((g) => g.name).join(", ") || "N/A"}
                         </Text>
@@ -122,9 +123,7 @@ const MoviesDetailsScreen = (props) => {
                             <Text style={styles.releaseDate}>
                                 {formatReleaseDate(movieDetails.release_date)} (IN)
                             </Text>
-
                         </View>
-
                         <Text style={[styles.overview]}>
                             {movieDetails.overview || "No description available"}
                         </Text>
@@ -142,6 +141,14 @@ const MoviesDetailsScreen = (props) => {
                         )}
                     </View>
                 </ScrollView>
+            }
+            {!loader && !movieDetails &&
+                <EmptyState
+                    image={Images.emptyImg}
+                    title={"Movie detail not found"}
+                    navigation={props.navigation}
+                    back={true}
+                />
             }
             {
                 loader &&
