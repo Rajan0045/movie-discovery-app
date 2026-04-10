@@ -4,7 +4,6 @@ import { Image, ScrollView, StatusBar, Text, TouchableOpacity, View } from "reac
 import { formatDate, formatReleaseDate, getCertification, getYearFD } from "../../../helpers/General";
 import { MovieRepository } from "../../../redux/slices/movieRepository";
 import Constant from "../../apis/constant";
-import styles from "./styles";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import { colors } from "../../../assets/styles/Colors";
 import { dpFont, dpHeight } from "../../../assets/styles/Sizes";
@@ -13,11 +12,15 @@ import globalStyles from "../../../assets/styles/GlobleStyles";
 import { getFavorites, saveFavorites } from "../../../storage/favourite";
 import { Images } from "../../../assets/styles/Images";
 import EmptyState from "../../components/emptyState";
+import { useTheme } from "../../hooks/useTheme";
+import getStyles from "./styles";
 
 const MoviesDetailsScreen = (props) => {
     const route = useRoute();
     const { movieId } = route.params;
 
+    const theme = useTheme();
+    const styles = getStyles(theme);
     //--------------------- states------------------------------------>>
     const [movieDetails, setMovieDetails] = useState(null);
     const [loader, setLoader] = useState(false);
@@ -78,7 +81,7 @@ const MoviesDetailsScreen = (props) => {
             <StatusBar barStyle="light-content" translucent backgroundColor="transparent" />
             {
                 !loader && movieDetails &&
-                <ScrollView style={styles.main}>
+                <ScrollView style={styles.main} contentContainerStyle={styles.contentContainerStyle}>
                     <View style={styles.card}>
                         <Image
                             source={{ uri: `${Constant.IMAGE_BASE_URL}${movieDetails.poster_path}` }}

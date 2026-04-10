@@ -1,150 +1,174 @@
+import React, { useEffect, useState, useCallback } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialIcons";
-import { colors } from "../../assets/styles/Colors";
 import { Images } from "../../assets/styles/Images";
-import { dpFont, dpHeight, dpImageHeight, dpSpacing, dpWidth } from "../../assets/styles/Sizes";
+import {
+  dpBorderWidth,
+  dpFont,
+  dpHeight,
+  dpImageHeight,
+  dpSpacing,
+  dpWidth,
+} from "../../assets/styles/Sizes";
 import { formatDate } from "../../helpers/General";
 import Constant from "../apis/constant";
 import { getFavorites, saveFavorites } from "../../storage/favourite";
-import { useEffect, useState } from "react";
+import { useTheme } from "../hooks/useTheme";
 
-const MovieCard = ({ movie, onPress, title, rating, image, date, description, isFocus }) => {
+const MovieCard = ({
+  movie,
+  onPress,
+  title,
+  rating,
+  image,
+  date,
+  description,
+  isFocus,
+}) => {
+  const theme = useTheme(); // ✅ now consistent
+  const styles = getStyles(theme);
+
   const [isFav, setIsFav] = useState(false);
 
   useEffect(() => {
     checkFavorite();
   }, [isFocus]);
 
-  //---------------get favourite and check fav exits in storage----------------->>
   const checkFavorite = async () => {
     const favs = await getFavorites();
     const exists = favs.some((item) => item.id === movie?.id);
     setIsFav(exists);
   };
 
-  //------------------- add/remove to fav---------------------------------------->>
-  const handleFav = async () => {
+  const handleFav = useCallback(async () => {
     const favs = await getFavorites();
+
     let updatedFavs;
     if (isFav) {
       updatedFavs = favs.filter((item) => item.id !== movie.id);
     } else {
       updatedFavs = [...favs, movie];
     }
+
     await saveFavorites(updatedFavs);
     setIsFav(!isFav);
-  };
-
+  }, [isFav, movie]);
 
   return (
     <TouchableOpacity style={styles.card} onPress={onPress}>
       <Image
-        source={image ? { uri: `${Constant.IMAGE_BASE_URL}${image}` } : Images.logo}
+        source={
+          image
+            ? { uri: `${Constant.IMAGE_BASE_URL}${image}` }
+            : Images.logo
+        }
         style={styles.image}
         resizeMode="cover"
       />
-      {
-        rating &&
+
+      {/* ⭐ Rating */}
+      {rating && (
         <View style={styles.ratRow}>
-          <Icon name="star" size={dpFont(15)} color={colors.starYellow} />
+          <Icon name="star" size={dpFont(15)} color={theme.starYellow} />
           <Text style={styles.ratingTxt}>{rating}</Text>
         </View>
-      }
+      )}
 
-      <TouchableOpacity style={styles.favBtn} onPress={() => handleFav(movie)}>
+      {/* ❤️ Favorite */}
+      <TouchableOpacity style={styles.favBtn} onPress={handleFav}>
         <Icon
           name={isFav ? "favorite" : "favorite-border"}
           size={dpFont(18)}
-          color={isFav ? colors.red : colors.lightgrey}
+          color={isFav ? theme.red : theme.lightgrey}
         />
       </TouchableOpacity>
 
+      {/* 📄 Info */}
       <View style={styles.infoContainer}>
         <Text style={styles.title} numberOfLines={1}>
-          {title ? title : ""}
+          {title || ""}
         </Text>
-        <Text style={styles.releasedDate}>{formatDate(date)}</Text>
+
+        <Text style={styles.releasedDate}>
+          {date ? formatDate(date) : ""}
+        </Text>
+
         <Text style={styles.desc} numberOfLines={2}>
-          {description}
+          {description || ""}
         </Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-export default MovieCard;
+export default React.memo(MovieCard);
 
-const styles = StyleSheet.create({
-  card: {
-    borderRadius: dpHeight(2),
-    padding: dpSpacing(2),
-    shadowColor: colors.darkgrey,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
-    shadowRadius: 2,
-    marginBottom: dpHeight(2),
-    elevation: 4,
-    backgroundColor: colors.white,
-    flex: 1,
-  },
-  image: {
-    width: "100%",
-    height: dpImageHeight(220),
-    borderRadius: dpHeight(1.5)
-  },
-  title: {
-    fontSize: dpFont(16),
-    color: colors.black,
-    fontWeight: "bold",
-  },
-  desc: {
-    fontSize: dpFont(14),
-    color: colors.darkgrey,
-    paddingTop: dpHeight(0.2)
-  },
-  ratRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: "rgba(0,0,0,0.35)",
-    position: 'absolute',
-    left: dpWidth(4),
-    top: dpWidth(4),
-    borderRadius: dpHeight(2),
-    paddingHorizontal: dpWidth(1.),
-    paddingVertical: dpHeight(0.4),
-    gap: dpWidth(0.5)
-  },
-  ratingTxt: {
-    fontSize: dpFont(14),
-    color: colors.white,
-    fontWeight: "600"
-  },
-  infoContainer: {
-    padding: dpHeight(0.3)
-  },
-  headerRow: {
-    flexDirection: 'row'
-  },
-  col1: {
-    flex: 0.76
-  },
-  col2: {
-    flex: 0.24,
-    alignItems: 'center'
-  },
-  releasedDate: {
-    fontSize: dpFont(14),
-    color: colors.grey
-  },
-  favBtn: {
-    position: 'absolute',
-    right: dpWidth(4),
-    top: dpWidth(4),
-    padding: dpHeight(0.5),
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: "rgba(255, 255, 255, 0.55)",
-    borderRadius: dpHeight(1.2),
-    zIndex: 9999
-  },
-});
+// 🎨 Styles
+const getStyles = (theme) =>
+  StyleSheet.create({
+    card: {
+      borderRadius: dpHeight(2),
+      padding: dpSpacing(2),
+      marginBottom: dpHeight(2),
+      elevation: 4,
+      flex: 1,
+      backgroundColor: theme.background,
+      shadowColor: theme.shadow || "#000",
+      shadowOffset: { width: 1, height: 1 },
+      shadowOpacity: 0.25,
+      shadowRadius: 3,
+      borderWidth: theme.background === "#121212" ? dpBorderWidth(0.3) : 0,
+      borderColor: theme.background === "#121212" ? "#fff" : "transparent",
+
+    },
+    image: {
+      width: "100%",
+      height: dpImageHeight(220),
+      borderRadius: dpHeight(1.5),
+    },
+    title: {
+      fontSize: dpFont(16),
+      color: theme.black,
+      fontWeight: "bold",
+    },
+    desc: {
+      fontSize: dpFont(14),
+      color: theme.grey,
+      paddingTop: dpHeight(0.2),
+    },
+    ratRow: {
+      flexDirection: "row",
+      alignItems: "center",
+      backgroundColor: "rgba(0,0,0,0.4)",
+      position: "absolute",
+      left: dpWidth(4),
+      top: dpWidth(4),
+      borderRadius: dpHeight(2),
+      paddingHorizontal: dpWidth(1),
+      paddingVertical: dpHeight(0.4),
+      gap: dpWidth(0.5),
+    },
+    ratingTxt: {
+      fontSize: dpFont(14),
+      color: theme.white,
+      fontWeight: "600",
+    },
+    infoContainer: {
+      padding: dpHeight(0.3),
+    },
+    releasedDate: {
+      fontSize: dpFont(14),
+      color: theme.grey,
+    },
+    favBtn: {
+      position: "absolute",
+      right: dpWidth(4),
+      top: dpWidth(4),
+      padding: dpHeight(0.5),
+      alignItems: "center",
+      justifyContent: "center",
+      backgroundColor: "rgba(255,255,255,0.6)",
+      borderRadius: dpHeight(1.2),
+      zIndex: 9999,
+    },
+  });

@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         backgroundColor: colors.white,
-        paddingTop: dpHeight(5),
+        paddingTop: Platform.OS === "ios" ? dpHeight(6.5) : dpHeight(5),
         paddingBottom: dpHeight(1),
         paddingHorizontal: dpWidth(4)
     },
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     },
     logoImage: {
         height: dpHeight(5),
-        width: dpWidth(18),
+        width: dpWidth(15),
         resizeMode: "contain"
     },
     flexcontainerCenter: {

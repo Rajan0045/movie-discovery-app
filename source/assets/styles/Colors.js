@@ -22,3 +22,42 @@ export const colors = {
     transparent: "rgba(0, 0, 0, 0.2)",
     shadow: "#9f9f9fff"
 };
+
+export const LightColors = {
+    primary: '#ff6f00',
+    secondary: '#ee00ff',
+    background: '#FBFBFB',
+    white: '#FFFFFF',
+    darkgrey: "#606060",
+    placeholder: "#7d7d7d",
+    lightgreen: "#EFFBEF",
+    lightred: "#ffcacaff",
+    lightred2: "#ffe3e3ff",
+    grey: "#757575",
+    black: '#262C33',
+    black1: '#111111',
+    border: '#DCDCDC',
+    mediumgrey: "#808080",
+    lightgrey: '#F2F5F7',
+    grey2: '#dcdcdcff',
+    red: '#FF3B30',
+    starYellow: '#FFD021',
+    errorColor: "#ff0000",
+    gradientgreen: '#e6fae7',
+    transparent: "rgba(0, 0, 0, 0.2)",
+    shadow: "#9f9f9fff"
+};
+
+export const DarkColors = {
+    ...LightColors,
+    background: '#121212',
+    white: '#1E1E1E',
+    black: '#FFFFFF',
+    black1: '#FFFFFF',
+    border: '#2C2C2C',
+    grey: '#AAAAAA',
+    lightgrey: '#1A1A1A',
+    darkgrey: "#CCCCCC",
+    placeholder: "#AAAAAA",
+    shadow: "#000000",
+};

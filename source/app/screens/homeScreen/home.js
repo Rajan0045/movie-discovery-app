@@ -1,21 +1,23 @@
+import { useIsFocused } from "@react-navigation/native";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, RefreshControl, StatusBar, Text, TextInput, View } from "react-native";
+import { ActivityIndicator, FlatList, RefreshControl, StatusBar, TextInput, View } from "react-native";
+import Icon from "react-native-vector-icons/Feather";
 import { useDispatch, useSelector } from "react-redux";
 import { colors } from "../../../assets/styles/Colors";
-import globalStyles from "../../../assets/styles/GlobleStyles";
-import { fetchMovies, searchMovies, clearSearch } from "../../../redux/slices/movieSlice";
-import MovieCard from "../../components/MovieCard";
-import styles from "./styles";
-import { useIsFocused } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/Feather";
-import { dpFont } from "../../../assets/styles/Sizes";
-import { useDebounce } from "../../hooks/useDebounce";
-import EmptyState from "../../components/emptyState";
 import { Images } from "../../../assets/styles/Images";
+import { dpFont } from "../../../assets/styles/Sizes";
+import { clearSearch, fetchMovies, searchMovies } from "../../../redux/slices/movieSlice";
+import EmptyState from "../../components/emptyState";
+import MovieCard from "../../components/MovieCard";
+import { useDebounce } from "../../hooks/useDebounce";
+import { useTheme } from "../../hooks/useTheme";
+import getStyles from "./styles";
 
 
 const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
+    const theme = useTheme();
+    const styles = getStyles(theme);
 
     //-----------------redux states---------------------------->>
     const {
